@@ -1,0 +1,11 @@
+# dependencies
+node_modules
+bower_components
+
+# IDE files
+.idea
+
+# build files
+build
+
+.DS_Store
