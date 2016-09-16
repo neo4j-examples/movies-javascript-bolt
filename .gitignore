@@ -8,4 +8,6 @@ bower_components
 # build files
 build
 
+# misc
 .DS_Store
+npm-debug.log
