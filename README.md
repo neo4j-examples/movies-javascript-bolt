@@ -1,11 +1,15 @@
-## Neo4j Movies Example Application - `neo4j-driver` Edition
+# Neo4j Movies Example Application - `neo4j-driver` Edition
 
-### Stack
+![alt text][./img/demo.png]
+
+## Stack
 
 * [Neo4j Bolt JavaScript Driver](https://github.com/neo4j/neo4j-javascript-driver)
 * Neo4j
 * Frontend: ES6, jquery, bootstrap, [d3.js](http://d3js.org/)
 * Webpack for building web assets
+
+## Quickstart
 
 ### Setup
 
@@ -15,10 +19,10 @@ $ npm install
 
 ### Run locally
 
-Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474). 
-Install the Movies dataset with `:play movies`, click the statement, and hit the triangular "Run" button.
-
-Run the App inside the Webpack Dev Server:
+* Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474). 
+* Install the Movies dataset with `:play movies`, click the statement, and hit the triangular "Run" button.
+* Clone this project from GitHub
+* Run the App inside the Webpack Dev Server:
 
 ```bash
 # run in developement mode (refreshes the app on source code changes)
