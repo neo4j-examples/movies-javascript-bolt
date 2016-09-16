@@ -1,6 +1,6 @@
 # Neo4j Movies Example Application - `neo4j-driver` Edition
 
-![alt text][./img/demo.png]
+![image of application](./img/demo.png)
 
 ## Stack
 
