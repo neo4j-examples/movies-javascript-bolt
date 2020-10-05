@@ -11,7 +11,7 @@ function searchMovies(queryString) {
   return session
     .run(
       'MATCH (movie:Movie) \
-      WHERE movie.title =~ {title} \
+      WHERE movie.title =~ $title \
       RETURN movie',
       {title: '(?i).*' + queryString + '.*'}
     )
@@ -31,11 +31,11 @@ function getMovie(title) {
   var session = driver.session();
   return session
     .run(
-      "MATCH (movie:Movie {title:{title}}) \
+      "MATCH (movie:Movie {title:$title}) \
       OPTIONAL MATCH (movie)<-[r]-(person:Person) \
       RETURN movie.title AS title, \
       collect([person.name, \
-           head(split(lower(type(r)), '_')), r.roles]) AS cast \
+           head(split(toLower(type(r)), '_')), r.roles]) AS cast \
       LIMIT 1", {title})
     .then(result => {
       session.close();
@@ -57,7 +57,7 @@ function getGraph() {
   return session.run(
     'MATCH (m:Movie)<-[:ACTED_IN]-(a:Person) \
     RETURN m.title AS movie, collect(a.name) AS cast \
-    LIMIT {limit}', {limit: 100})
+    LIMIT $limit', {limit: neo4j.int(100)})
     .then(results => {
       session.close();
       var nodes = [], rels = [], i = 0;
@@ -69,7 +69,7 @@ function getGraph() {
         res.get('cast').forEach(name => {
           var actor = {title: name, label: 'actor'};
           var source = _.findIndex(nodes, actor);
-          if (source == -1) {
+          if (source === -1) {
             nodes.push(actor);
             source = i;
             i++;
