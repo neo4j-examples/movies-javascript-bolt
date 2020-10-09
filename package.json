@@ -6,7 +6,7 @@
   "license": "PRIVATE",
   "dependencies": {
     "lodash": "^4.15.0",
-    "neo4j-driver": "^1.7.7"
+    "neo4j-driver": "^4.1.2"
   },
   "devDependencies": {
     "babel-core": "^6.3.26",
