@@ -1,4 +1,5 @@
 # Neo4j Movies Example Application - `neo4j-driver` Edition
+![Node.js CI](https://github.com/neo4j-examples/movies-javascript-bolt/workflows/Node.js%20CI/badge.svg)
 
 ![image of application](./img/demo.png)
 
