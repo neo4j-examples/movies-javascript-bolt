@@ -19,7 +19,7 @@
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.12.0"
+    "webpack-dev-server": "^3.1.11"
   },
   "scripts": {
     "clean": "rimraf build && rimraf build",
