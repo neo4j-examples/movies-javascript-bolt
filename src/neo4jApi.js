@@ -1,4 +1,4 @@
-require('file?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
+require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
 var Movie = require('./models/Movie');
 var MovieCast = require('./models/MovieCast');
 var _ = require('lodash');
