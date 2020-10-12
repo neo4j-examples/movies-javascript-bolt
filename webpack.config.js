@@ -1,31 +1,25 @@
 'use strict';
 
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const Webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-/**
- * Get configuration for Webpack
- *
- * @see http://webpack.github.io/docs/configuration
- *      https://github.com/petehunt/webpack-howto
- *
- * @param {boolean} release True if configuration is intended to be used in
- * a release mode, false otherwise
- * @return {object} Webpack configuration
- */
+const buildDirectory = path.join(__dirname, 'build');
+
 module.exports = {
+  mode: 'development',
   entry: {
     app: './src/app.js'
   },
-
   output: {
     filename: 'app.js',
-    path: './build/',
-    publicPatch: './build/'
+    path: buildDirectory,
   },
-
-  debug: true,
   devtool: false,
+  devServer: {
+    contentBase: buildDirectory,
+    port: 8080
+  },
 
   stats: {
     colors: true,
@@ -37,25 +31,24 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
+    extensions: ['.webpack.js', '.web.js', '.js', '.jsx']
   },
 
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.css$/,
-        loader: 'style!css'
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       },
       {
-        test:  /\.(jpe?g|png|gif|svg)$/i,
-        loader: 'file-loader?name=[name].[ext]'
+        test: /\.(png|svg|ico|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
       },
-      {
-        test: /\.js|\.jsx/,
-        exclude: /node_modules|bower_components/,
-        loader: 'babel'
-      }
     ]
-  }
+  },
 };
 

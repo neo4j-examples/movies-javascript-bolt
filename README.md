@@ -27,7 +27,7 @@ $ npm install
 
 ```bash
 # run in developement mode (refreshes the app on source code changes)
-$ npm run dev
+$ npm start
 
 # builds the release version with client assets in "build" directory
 $ npm run build
