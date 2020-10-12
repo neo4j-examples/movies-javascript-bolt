@@ -18,7 +18,7 @@
     "html-webpack-plugin": "^2.10.0",
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
-    "webpack": "^1.12.14",
+    "webpack": "^2.7.0",
     "webpack-dev-server": "^1.12.0"
   },
   "scripts": {
