@@ -1,29 +1,57 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
+name: CI
 
 on:
   push:
     branches: [ '**' ]
   pull_request:
-    branches: [ '**'  ]
+    branches: [ '**' ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
-
+        node-version: [ 10.x, 12.x, 14.x ]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run clean
-    - run: npm run build
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run clean
+      - run: npm run build
+  e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 10.x ]
+        neo4j-version: [ "4.0", "4.0-enterprise", "4.1", "4.1-enterprise" ]
+    services:
+      neo4j:
+        image: neo4j:${{ matrix.neo4j-version }}
+        ports: [ "7687:7687" ]
+        env:
+          NEO4J_ACCEPT_LICENSE_AGREEMENT: yes
+          NEO4J_AUTH: "neo4j/abcde"
+        options: >-
+          --name neo4j-e2e
+          --health-cmd "cypher-shell -u neo4j -p abcde 'RETURN 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-start-period 10s
+          --health-retries 5
+          --volume /tmp:/movies
+    steps:
+      - name: Download dataset
+        run: curl --output /tmp/movies.cypher https://raw.githubusercontent.com/neo4j-graph-examples/movies/master/scripts/import.cypher
+      - name: Import dataset
+        run: docker exec --interactive neo4j-e2e cypher-shell -u neo4j -p abcde --file /movies/movies.cypher
+      - uses: actions/checkout@v2
+      - uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          browser: chrome
+          headless: true
+          spec: cypress/integration/movies.spec.js
