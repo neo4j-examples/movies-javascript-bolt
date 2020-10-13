@@ -1,3 +1,4 @@
+require('file-loader?name=[name].[ext]!./assets/images/favicon.ico')
 var api = require('./neo4jApi');
 
 $(function () {
