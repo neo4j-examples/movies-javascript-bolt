@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "css-loader": "^5.0.1",
-    "cypress": "^5.5.0",
+    "cypress": "^5.6.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",
     "rimraf": "^3.0.2",
