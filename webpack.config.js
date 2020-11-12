@@ -18,7 +18,7 @@ module.exports = {
   devtool: false,
   devServer: {
     contentBase: buildDirectory,
-    port: 8080
+    port: process.env.PORT || 8080
   },
 
   stats: {
@@ -27,7 +27,13 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin({template: 'src/assets/index.html'})
+    new HtmlWebpackPlugin({template: 'src/assets/index.html'}),
+    new Webpack.EnvironmentPlugin({
+      'NEO4J_URI': 'neo4j+s://demo.neo4jlabs.com',
+      'NEO4J_DATABASE': 'movies',
+      'NEO4J_USER': 'movies',
+      'NEO4J_PASSWORD': 'movies'
+    })
   ],
 
   resolve: {
