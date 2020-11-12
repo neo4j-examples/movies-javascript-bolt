@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Demo application using Neo4j Driver for Javascript",
   "repository": "",
-  "license": "PRIVATE",
+  "license": "Apache-2.0",
+  "private": true,
   "dependencies": {
     "lodash": "^4.15.0",
     "neo4j-driver": "^4.1.2"
