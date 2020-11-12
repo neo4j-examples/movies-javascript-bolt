@@ -1,5 +1,5 @@
 require('file-loader?name=[name].[ext]!./assets/images/favicon.ico')
-var api = require('./neo4jApi');
+const api = require('./neo4jApi');
 
 $(function () {
   renderGraph();
@@ -19,7 +19,7 @@ function showMovie(title) {
 
       $("#title").text(movie.title);
       $("#poster").attr("src","https://neo4j-documentation.github.io/developer-resources/language-guides/assets/posters/"+encodeURIComponent(movie.title)+".jpg");
-      var $list = $("#crew").empty();
+      const $list = $("#crew").empty();
       movie.cast.forEach(cast => {
         $list.append($("<li>" + cast.name + " " + cast.job + (cast.job === "acted" ? " as " + cast.role : "") + "</li>"));
       });
@@ -27,11 +27,11 @@ function showMovie(title) {
 }
 
 function search() {
-  var query = $("#search").find("input[name=search]").val();
+  const query = $("#search").find("input[name=search]").val();
   api
     .searchMovies(query)
     .then(movies => {
-      var t = $("table#results tbody").empty();
+      const t = $("table#results tbody").empty();
 
       if (movies) {
         movies.forEach(movie => {
@@ -41,7 +41,7 @@ function search() {
             })
         });
 
-        var first = movies[0];
+        const first = movies[0];
         if (first) {
           showMovie(first.title);
         }
@@ -50,11 +50,11 @@ function search() {
 }
 
 function renderGraph() {
-  var width = 800, height = 800;
-  var force = d3.layout.force()
+  const width = 800, height = 800;
+  const force = d3.layout.force()
     .charge(-200).linkDistance(30).size([width, height]);
 
-  var svg = d3.select("#graph").append("svg")
+  const svg = d3.select("#graph").append("svg")
     .attr("width", "100%").attr("height", "100%")
     .attr("pointer-events", "all");
 
@@ -63,11 +63,11 @@ function renderGraph() {
     .then(graph => {
       force.nodes(graph.nodes).links(graph.links).start();
 
-      var link = svg.selectAll(".link")
+      const link = svg.selectAll(".link")
         .data(graph.links).enter()
         .append("line").attr("class", "link");
 
-      var node = svg.selectAll(".node")
+      const node = svg.selectAll(".node")
         .data(graph.nodes).enter()
         .append("circle")
         .attr("class", d => {

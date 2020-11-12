@@ -1,4 +1,4 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
 function MovieCast(title, cast) {
   _.extend(this, {
