@@ -4,10 +4,13 @@ const MovieCast = require('./models/MovieCast');
 const _ = require('lodash');
 
 const neo4j = window.neo4j;
-const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "abcde"));
+const driver = neo4j.driver(
+    process.env.NEO4J_URI,
+    neo4j.auth.basic(process.env.NEO4J_USER, process.env.NEO4J_PASSWORD),
+);
 
 function searchMovies(queryString) {
-  const session = driver.session();
+  const session = driver.session({database: process.env.NEO4J_DATABASE});
   return session.readTransaction((tx) =>
       tx.run('MATCH (movie:Movie) \
       WHERE movie.title =~ $title \
@@ -28,7 +31,7 @@ function searchMovies(queryString) {
 }
 
 function getMovie(title) {
-  const session = driver.session();
+  const session = driver.session({database: process.env.NEO4J_DATABASE});
   return session.readTransaction((tx) =>
       tx.run("MATCH (movie:Movie {title:$title}) \
       OPTIONAL MATCH (movie)<-[r]-(person:Person) \
@@ -52,7 +55,7 @@ function getMovie(title) {
 }
 
 function getGraph() {
-  const session = driver.session();
+  const session = driver.session({database: process.env.NEO4J_DATABASE});
   return session.readTransaction((tx) =>
     tx.run('MATCH (m:Movie)<-[:ACTED_IN]-(a:Person) \
     RETURN m.title AS movie, collect(a.name) AS cast \
