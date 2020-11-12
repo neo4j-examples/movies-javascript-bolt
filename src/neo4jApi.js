@@ -3,8 +3,8 @@ var Movie = require('./models/Movie');
 var MovieCast = require('./models/MovieCast');
 var _ = require('lodash');
 
-var neo4j = window.neo4j.v1;
 var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "abcde"));
+var neo4j = window.neo4j;
 
 function searchMovies(queryString) {
   var session = driver.session();
