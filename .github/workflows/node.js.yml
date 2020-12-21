@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ '**' ]
+    branches: [ 'main' ]
   pull_request:
     branches: [ '**' ]
 
@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         node-version: [ 10.x ]
-        neo4j-version: [ "4.0", "4.0-enterprise", "4.1", "4.1-enterprise" ]
+        neo4j-version: [ "3.5", "3.5-enterprise", "4.2", "4.2-enterprise" ]
     services:
       neo4j:
         image: neo4j:${{ matrix.neo4j-version }}
@@ -46,7 +46,11 @@ jobs:
     steps:
       - name: Download dataset
         run: curl --output /tmp/movies.cypher https://raw.githubusercontent.com/neo4j-graph-examples/movies/master/scripts/import.cypher
+      - name: Import dataset (Neo4j 3.5)
+        if: ${{ startsWith(matrix.neo4j-version, '3.5') }}
+        run: docker exec --interactive neo4j-e2e sh -c 'cat /movies/movies.cypher | cypher-shell -u neo4j -p abcde'
       - name: Import dataset
+        if: ${{ !startsWith(matrix.neo4j-version, '3.5') }}
         run: docker exec --interactive neo4j-e2e cypher-shell -u neo4j -p abcde --file /movies/movies.cypher
       - uses: actions/checkout@v2
       - uses: cypress-io/github-action@v2
