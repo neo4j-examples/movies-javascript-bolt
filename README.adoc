@@ -1,14 +1,23 @@
-= Neo4j Movies Example Application - `neo4j-driver` Edition
-![Node.js CI](https://github.com/neo4j-examples/movies-javascript-bolt/workflows/Node.js%20CI/badge.svg)
+== Neo4j Movies Application: Quick Start
+
+image::https://github.com/neo4j-examples/movies-javascript-bolt/workflows/Node.js%20CI/badge.svg[CI]
 
 image::./img/demo.png[image of application]
 
-== Stack
+This example application demonstrates how easy it is to get started with http://neo4j.com/developer[Neo4j] in JavaScript.
 
-* [Neo4j Bolt JavaScript Driver](https://github.com/neo4j/neo4j-javascript-driver)
-* Neo4j
-* Frontend: ES6, jquery, bootstrap, [d3.js](http://d3js.org/)
-* Webpack for building web assets
+It is a very simple web application that uses our Movie graph dataset to provide a search with listing, a detail view and a graph visualization.
+
+== The Stack
+
+These are the components of our Web Application:
+
+* Application Type:         JavaScript-Web Application
+* Neo4j Database Connector: https://github.com/neo4j/neo4j-javascript-driver[Neo4j JavaScript Driver] for Cypher https://neo4j.com/developer/javascript[Docs]
+* Database:                 Neo4j-Server (4.x) with multi-database
+* Frontend:                 jquery, bootstrap, https://d3js.org/[d3.js]
+
+Provision a database quickly with https://sandbox.neo4j.com/[Neo4j Sandbox] or https://neo4j.com/cloud/aura/[Neo4j Aura].
 
 == Quickstart
 
@@ -21,21 +30,21 @@ $ npm install
 
 === Run locally
 
-* Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474).
+* Start Neo4j (https://neo4j.com/download[Download & Install]) locally and open the http://localhost:7474[Neo4j Browser].
 * Install the Movies dataset with `:play movies`, click the statement, and hit the triangular "Run" button.
 * Clone this project from GitHub
 * Run the App inside the Webpack Dev Server:
 
 [source,bash]
 ----
-# run in developement mode (refreshes the app on source code changes)
+# run in development mode (refreshes the app on source code changes)
 $ npm start
 
 # builds the release version with client assets in "build" directory
 $ npm run build
 ----
 
-When running in "dev" mode navigate to [http://localhost:8080/webpack-dev-server/](http://localhost:8080/webpack-dev-server/) to see the application.
+When running in "dev" mode, navigate to http://localhost:8080/webpack-dev-server/ to see the application.
 
 After executing the `npm run build` command,  open local file "build/index.html" in your browser.
 
