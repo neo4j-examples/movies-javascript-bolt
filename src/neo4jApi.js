@@ -4,10 +4,13 @@ const MovieCast = require('./models/MovieCast');
 const _ = require('lodash');
 
 const neo4j = window.neo4j;
+const neo4jUri = process.env.NEO4J_URI;
 const driver = neo4j.driver(
-    process.env.NEO4J_URI,
+    neo4jUri,
     neo4j.auth.basic(process.env.NEO4J_USER, process.env.NEO4J_PASSWORD),
 );
+
+console.log(`Database running at ${neo4jUri}`)
 
 function searchMovies(queryString) {
   const session = driver.session({database: process.env.NEO4J_DATABASE});
