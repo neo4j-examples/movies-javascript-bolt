@@ -32,7 +32,8 @@ module.exports = {
       'NEO4J_URI': 'neo4j+s://demo.neo4jlabs.com',
       'NEO4J_DATABASE': 'movies',
       'NEO4J_USER': 'movies',
-      'NEO4J_PASSWORD': 'movies'
+      'NEO4J_PASSWORD': 'movies',
+      'NEO4J_VERSION': ''
     })
   ],
 

@@ -5,6 +5,11 @@ const _ = require('lodash');
 
 const neo4j = window.neo4j;
 const neo4jUri = process.env.NEO4J_URI;
+const neo4jVersion = process.env.NEO4J_VERSION;
+let database = process.env.NEO4J_DATABASE;
+if (!neo4jVersion.startsWith("4")) {
+  database = null;
+}
 const driver = neo4j.driver(
     neo4jUri,
     neo4j.auth.basic(process.env.NEO4J_USER, process.env.NEO4J_PASSWORD),
@@ -13,7 +18,7 @@ const driver = neo4j.driver(
 console.log(`Database running at ${neo4jUri}`)
 
 function searchMovies(queryString) {
-  const session = driver.session({database: process.env.NEO4J_DATABASE});
+  const session = driver.session({database: database});
   return session.readTransaction((tx) =>
       tx.run('MATCH (movie:Movie) \
       WHERE movie.title =~ $title \
@@ -34,7 +39,7 @@ function searchMovies(queryString) {
 }
 
 function getMovie(title) {
-  const session = driver.session({database: process.env.NEO4J_DATABASE});
+  const session = driver.session({database: database});
   return session.readTransaction((tx) =>
       tx.run("MATCH (movie:Movie {title:$title}) \
       OPTIONAL MATCH (movie)<-[r]-(person:Person) \
@@ -58,7 +63,7 @@ function getMovie(title) {
 }
 
 function getGraph() {
-  const session = driver.session({database: process.env.NEO4J_DATABASE});
+  const session = driver.session({database: database});
   return session.readTransaction((tx) =>
     tx.run('MATCH (m:Movie)<-[:ACTED_IN]-(a:Person) \
     RETURN m.title AS movie, collect(a.name) AS cast \
