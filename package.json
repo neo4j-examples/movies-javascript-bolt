@@ -17,7 +17,7 @@
     "rimraf": "^3.0.2",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.1"
   },
   "scripts": {
     "clean": "rimraf build",
