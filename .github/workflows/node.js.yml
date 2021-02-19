@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ 'main' ]
+    branches: [ '**' ]
   pull_request:
     branches: [ '**' ]
 
@@ -54,22 +54,23 @@ jobs:
         run: docker exec --interactive neo4j-e2e cypher-shell -u neo4j -p abcde --file /movies/movies.cypher
       - name: Check out project sources
         uses: actions/checkout@v2
-      - name: Install project dependencies
+      - name: Install dependencies
         run: npm ci
-      - name: Check out test harness sources
-        uses: actions/checkout@v2
-        with:
-          repository: neo4j-examples/movies-harness
-          path: e2e
-      - uses: cypress-io/github-action@v2
+      - name: Start server
         env:
           NEO4J_VERSION: ${{ matrix.neo4j-version }}
           NEO4J_URI: bolt://localhost
           NEO4J_DATABASE: "neo4j"
           NEO4J_USER: neo4j
           NEO4J_PASSWORD: abcde
+        run: npm start &
+      - name: Check out test harness sources
+        uses: actions/checkout@v2
         with:
-          start: npm --prefix .. start
+          repository: neo4j-examples/movies-harness
+          path: e2e
+      - uses: cypress-io/github-action@v2
+        with:
           working-directory: e2e
           browser: chrome
           headless: true
