@@ -52,7 +52,15 @@ jobs:
       - name: Import dataset
         if: ${{ !startsWith(matrix.neo4j-version, '3.5') }}
         run: docker exec --interactive neo4j-e2e cypher-shell -u neo4j -p abcde --file /movies/movies.cypher
-      - uses: actions/checkout@v2
+      - name: Check out project sources
+        uses: actions/checkout@v2
+      - name: Install project dependencies
+        run: npm ci
+      - name: Check out test harness sources
+        uses: actions/checkout@v2
+        with:
+          repository: neo4j-examples/movies-harness
+          path: e2e
       - uses: cypress-io/github-action@v2
         env:
           NEO4J_VERSION: ${{ matrix.neo4j-version }}
@@ -61,7 +69,7 @@ jobs:
           NEO4J_USER: neo4j
           NEO4J_PASSWORD: abcde
         with:
-          start: npm start
+          start: npm --prefix .. start
+          working-directory: e2e
           browser: chrome
           headless: true
-          spec: cypress/integration/movies.spec.js
