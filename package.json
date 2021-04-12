@@ -10,7 +10,7 @@
     "neo4j-driver": "^4.2.3"
   },
   "devDependencies": {
-    "css-loader": "^5.2.0",
+    "css-loader": "^5.2.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.1",
     "rimraf": "^3.0.2",
