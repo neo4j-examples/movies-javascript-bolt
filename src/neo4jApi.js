@@ -5,7 +5,11 @@ const _ = require('lodash');
 
 const neo4j = window.neo4j;
 const neo4jUri = process.env.NEO4J_URI;
-const neo4jVersion = process.env.NEO4J_VERSION;
+let neo4jVersion = process.env.NEO4J_VERSION;
+if (neo4jVersion === '') {
+  // assume Neo4j 4 by default
+  neo4jVersion = '4';
+}
 let database = process.env.NEO4J_DATABASE;
 if (!neo4jVersion.startsWith("4")) {
   database = null;
