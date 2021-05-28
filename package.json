@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "lodash": "^4.17.21",
-    "neo4j-driver": "^4.2.3"
+    "neo4j-driver": "^4.3.0"
   },
   "devDependencies": {
     "css-loader": "^5.2.6",
