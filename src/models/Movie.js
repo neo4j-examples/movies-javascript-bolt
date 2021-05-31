@@ -9,6 +9,11 @@ function Movie(_node) {
   if (this.duration) {
     this.duration = this.duration.toNumber();
   }
+  if (this.votes) {
+    this.votes = this.votes.toNumber();
+  } else {
+    this.votes = 0;
+  }
 }
 
 module.exports = Movie;
