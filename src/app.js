@@ -23,7 +23,18 @@ function showMovie(title) {
       movie.cast.forEach(cast => {
         $list.append($("<li>" + cast.name + " " + cast.job + (cast.job === "acted" ? " as " + cast.role : "") + "</li>"));
       });
+      $("#vote")
+        .unbind("click")
+        .click(function () {
+          voteInMovie(movie.title)
+        })
     }, "json");
+}
+
+function voteInMovie(title) {
+  api.voteInMovie(title)
+    .then(search)
+    .then(() => showMovie(title));
 }
 
 function search() {
@@ -34,8 +45,14 @@ function search() {
       const t = $("table#results tbody").empty();
 
       if (movies) {
-        movies.forEach(movie => {
-          $("<tr><td class='movie'>" + movie.title + "</td><td>" + movie.released + "</td><td>" + movie.tagline + "</td></tr>").appendTo(t)
+        movies.forEach((movie, index) => {
+          $('<tr>' + 
+              `<td class='movie'>${movie.title}</td>` + 
+              `<td>${movie.released}</td>` +
+              `<td>${movie.tagline}</td>` + 
+              `<td id='votes${index}'>${movie.votes}</td>` +
+            '</tr>')
+            .appendTo(t)
             .click(function() {
               showMovie($(this).find("td.movie").text());
             })

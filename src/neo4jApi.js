@@ -66,6 +66,20 @@ function getMovie(title) {
     });
 }
 
+function voteInMovie(title) {
+  const session = driver.session({ database: database });
+  return session.writeTransaction((tx) =>
+      tx.run("MATCH (m:Movie {title: $title}) \
+        WITH m, (CASE WHEN exists(m.votes) THEN m.votes ELSE 0 END) AS currentVotes \
+        SET m.votes = currentVotes + 1;", { title }))
+    .then(result => {
+      return result.summary.counters.updates().propertiesSet
+    })
+    .finally(() => {
+      return session.close();
+    });
+}
+
 function getGraph() {
   const session = driver.session({database: database});
   return session.readTransaction((tx) =>
@@ -105,4 +119,5 @@ function getGraph() {
 exports.searchMovies = searchMovies;
 exports.getMovie = getMovie;
 exports.getGraph = getGraph;
+exports.voteInMovie = voteInMovie;
 
