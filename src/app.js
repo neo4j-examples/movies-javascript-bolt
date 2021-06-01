@@ -33,11 +33,11 @@ function showMovie(title) {
 
 function voteInMovie(title) {
   api.voteInMovie(title)
-    .then(search)
+    .then(() => search(false))
     .then(() => showMovie(title));
 }
 
-function search() {
+function search(showFirst = true) {
   const query = $("#search").find("input[name=search]").val();
   api
     .searchMovies(query)
@@ -59,8 +59,8 @@ function search() {
         });
 
         const first = movies[0];
-        if (first) {
-          showMovie(first.title);
+        if (first && showFirst) {
+          return showMovie(first.title);
         }
       }
     });
