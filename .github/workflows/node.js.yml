@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         node-version: [ 10.x ]
-        neo4j-version: [ "3.5", "3.5-enterprise", "4.2", "4.2-enterprise" ]
+        neo4j-version: [ "4.3-enterprise" ]
     services:
       neo4j:
         image: neo4j:${{ matrix.neo4j-version }}
@@ -46,16 +46,20 @@ jobs:
     steps:
       - name: Download dataset
         run: curl --fail --output /tmp/movies.cypher https://raw.githubusercontent.com/neo4j-graph-examples/movies/8508a527d8aa1c261b0978d1d5b3156d4ac8328e/scripts/import.cypher
-      - name: Import dataset (Neo4j 3.5)
-        if: ${{ startsWith(matrix.neo4j-version, '3.5') }}
-        run: docker exec --interactive neo4j-e2e sh -c 'cat /movies/movies.cypher | cypher-shell -u neo4j -p abcde'
       - name: Import dataset
-        if: ${{ !startsWith(matrix.neo4j-version, '3.5') }}
         run: docker exec --interactive neo4j-e2e cypher-shell -u neo4j -p abcde --file /movies/movies.cypher
       - name: Check out project sources
         uses: actions/checkout@v2
       - name: Install dependencies
         run: npm ci
+      - name: Run unit tests
+        env:
+          NEO4J_VERSION: ${{ matrix.neo4j-version }}
+          NEO4J_URI: bolt://localhost
+          NEO4J_DATABASE: "neo4j"
+          NEO4J_USER: neo4j
+          NEO4J_PASSWORD: abcde
+        run: npm test
       - name: Start server
         env:
           NEO4J_VERSION: ${{ matrix.neo4j-version }}
