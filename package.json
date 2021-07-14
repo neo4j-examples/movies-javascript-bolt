@@ -10,9 +10,11 @@
     "neo4j-driver": "^4.3.1"
   },
   "devDependencies": {
+    "@neo4j-labs/temp-dbs": "^0.2.4",
     "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.0.6",
     "rimraf": "^3.0.2",
     "webpack": "^5.42.0",
     "webpack-cli": "^4.7.2",
@@ -21,6 +23,7 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "webpack",
-    "start": "webpack serve"
+    "start": "webpack serve",
+    "test": "jest"
   }
 }

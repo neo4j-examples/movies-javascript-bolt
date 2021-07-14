@@ -1,9 +1,8 @@
-require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
+const neo4j = require('neo4j-driver')
 const Movie = require('./models/Movie');
 const MovieCast = require('./models/MovieCast');
 const _ = require('lodash');
 
-const neo4j = window.neo4j;
 const neo4jUri = process.env.NEO4J_URI;
 let neo4jVersion = process.env.NEO4J_VERSION;
 if (neo4jVersion === '') {
@@ -19,7 +18,7 @@ const driver = neo4j.driver(
     neo4j.auth.basic(process.env.NEO4J_USER, process.env.NEO4J_PASSWORD),
 );
 
-console.log(`Database running at ${neo4jUri}`)
+console.log(`Database '${database}' running at ${neo4jUri}`)
 
 function searchMovies(queryString) {
   const session = driver.session({database: database});
@@ -116,6 +115,7 @@ function getGraph() {
     });
 }
 
+exports.driver = driver;
 exports.searchMovies = searchMovies;
 exports.getMovie = getMovie;
 exports.getGraph = getGraph;
