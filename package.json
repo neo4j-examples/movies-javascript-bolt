@@ -10,7 +10,7 @@
     "neo4j-driver": "^4.3.1"
   },
   "devDependencies": {
-    "@neo4j-labs/temp-dbs": "git+https://github.com/neo4j-contrib/neo4j-temp-db.git#v0.2.2",
+    "@neo4j-labs/temp-dbs": "^0.2.4",
     "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
