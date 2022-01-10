@@ -17,7 +17,7 @@ module.exports = {
   },
   devtool: false,
   devServer: {
-    contentBase: buildDirectory,
+    static: buildDirectory,
     port: process.env.PORT || 8080
   },
 
