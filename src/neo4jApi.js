@@ -70,8 +70,7 @@ function voteInMovie(title) {
   const session = driver.session({ database: database });
   return session.writeTransaction((tx) =>
       tx.run("MATCH (m:Movie {title: $title}) \
-        WITH m, (CASE WHEN exists(m.votes) THEN m.votes ELSE 0 END) AS currentVotes \
-        SET m.votes = currentVotes + 1;", { title }))
+        SET m.votes = COALESCE(m.votes, 0) + 1", { title }))
     .then(result => {
       return result.summary.counters.updates().propertiesSet
     })
