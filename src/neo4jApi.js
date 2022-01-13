@@ -21,13 +21,13 @@ const driver = neo4j.driver(
 
 console.log(`Database running at ${neo4jUri}`)
 
-function searchMovies(queryString) {
+function searchMovies(title) {
   const session = driver.session({database: database});
   return session.readTransaction((tx) =>
       tx.run('MATCH (movie:Movie) \
-      WHERE movie.title =~ $title \
+      WHERE TOLOWER(movie.title) CONTAINS TOLOWER($title) \
       RETURN movie',
-      {title: '(?i).*' + queryString + '.*'})
+      {title})
     )
     .then(result => {
       return result.records.map(record => {
