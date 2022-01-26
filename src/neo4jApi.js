@@ -25,7 +25,7 @@ function searchMovies(title) {
   const session = driver.session({database: database});
   return session.readTransaction((tx) =>
       tx.run('MATCH (movie:Movie) \
-      WHERE TOLOWER(movie.title) CONTAINS TOLOWER($title) \
+      WHERE toLower(movie.title) CONTAINS toLower($title) \
       RETURN movie',
       {title})
     )
@@ -70,7 +70,7 @@ function voteInMovie(title) {
   const session = driver.session({ database: database });
   return session.writeTransaction((tx) =>
       tx.run("MATCH (m:Movie {title: $title}) \
-        SET m.votes = COALESCE(m.votes, 0) + 1", { title }))
+        SET m.votes = coalesce(m.votes, 0) + 1", { title }))
     .then(result => {
       return result.summary.counters.updates().propertiesSet
     })
