@@ -44,6 +44,19 @@ $ npm start
 $ npm run build
 ----
 
+If you run into the following error:
+```
+ERROR in ./src/assets/images/favicon.ico (./node_modules/file-loader/dist/cjs.js?name=[name].[ext]!./src/assets/images/favicon.ico)
+Module build failed (from ./node_modules/file-loader/dist/cjs.js):
+Error: error:0308010C:digital envelope routines::unsupported
+```
+you can solve the issue by running: 
+```
+export NODE_OPTIONS=--openssl-legacy-provider
+```
+before running `npm start` or `npm run build`.
+
+
 When running in "dev" mode, navigate to http://localhost:8080/webpack-dev-server/ to see the application.
 
 After executing the `npm run build` command,  open local file "build/index.html" in your browser.
