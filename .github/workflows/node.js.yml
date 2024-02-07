@@ -74,5 +74,4 @@ jobs:
         with:
           working-directory: e2e
           browser: chrome
-          headless: true
           start: npm --prefix .. start
