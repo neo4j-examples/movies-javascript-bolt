@@ -15,7 +15,7 @@ jobs:
       matrix:
         node-version: [ 12.x, 14.x, 16.x ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -55,11 +55,11 @@ jobs:
         if: ${{ !startsWith(matrix.neo4j-version, '3.5') }}
         run: docker exec --interactive neo4j-e2e cypher-shell -u neo4j -p abcde --file /movies/movies.cypher
       - name: Check out project sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
       - name: Check out test harness sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: neo4j-examples/movies-harness
           path: e2e
