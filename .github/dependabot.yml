@@ -16,7 +16,7 @@ updates:
     - 5.26.2
     - 5.34.0  
   assignees:
-  - bigmontz
+  - MaxAake
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
