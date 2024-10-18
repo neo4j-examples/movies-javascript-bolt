@@ -1,17 +1,16 @@
-require('file-loader?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
 const Movie = require('./models/Movie');
 const MovieCast = require('./models/MovieCast');
 const _ = require('lodash');
 
-const neo4j = window.neo4j;
+const neo4j = require('neo4j-driver');
 const neo4jUri = process.env.NEO4J_URI;
 let neo4jVersion = process.env.NEO4J_VERSION;
 if (neo4jVersion === '') {
-  // assume Neo4j 4 by default
-  neo4jVersion = '4';
+  // assume Neo4j 5 by default
+  neo4jVersion = '5';
 }
 let database = process.env.NEO4J_DATABASE;
-if (!neo4jVersion.startsWith("4")) {
+if (!neo4jVersion.startsWith("4") || !neo4jVersion.startsWith("5")) {
   database = null;
 }
 const driver = neo4j.driver(
@@ -23,7 +22,7 @@ console.log(`Database running at ${neo4jUri}`)
 
 function searchMovies(title) {
   const session = driver.session({database: database});
-  return session.readTransaction((tx) =>
+  return session.executeRead((tx) =>
       tx.run('MATCH (movie:Movie) \
       WHERE toLower(movie.title) CONTAINS toLower($title) \
       RETURN movie',
@@ -44,7 +43,7 @@ function searchMovies(title) {
 
 function getMovie(title) {
   const session = driver.session({database: database});
-  return session.readTransaction((tx) =>
+  return session.executeRead((tx) =>
       tx.run("MATCH (movie:Movie {title:$title}) \
       OPTIONAL MATCH (movie)<-[r]-(person:Person) \
       RETURN movie.title AS title, \
@@ -68,7 +67,7 @@ function getMovie(title) {
 
 function voteInMovie(title) {
   const session = driver.session({ database: database });
-  return session.writeTransaction((tx) =>
+  return session.executeWrite((tx) =>
       tx.run("MATCH (m:Movie {title: $title}) \
         SET m.votes = coalesce(m.votes, 0) + 1", { title }))
     .then(result => {
@@ -81,7 +80,7 @@ function voteInMovie(title) {
 
 function getGraph() {
   const session = driver.session({database: database});
-  return session.readTransaction((tx) =>
+  return session.executeRead((tx) =>
     tx.run('MATCH (m:Movie)<-[:ACTED_IN]-(a:Person) \
     RETURN m.title AS movie, collect(a.name) AS cast \
     LIMIT $limit', {limit: neo4j.int(100)}))
